@@ -19,10 +19,15 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-// your first API endpoint...
-app.get('/api/hello', function (req, res) {
-  res.json({ greeting: 'hello API' });
+
+// request to /api/whoami should return a JSON object with your IP address in the ipaddress key, your preferred language in the language key, your software in the software key.
+app.get('/api/whoami', (req, res) => {
+  const myip = req.socket.remoteAddress;
+  const mylanguage = req.headers['accept-language'];
+  const mysoftware = req.headers['user-agent'];
+  res.json({ipaddress: myip, language: mylanguage, software: mysoftware});
 });
+
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT || 3000, function () {
